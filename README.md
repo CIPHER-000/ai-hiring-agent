@@ -87,7 +87,7 @@ Hiring teams spend hours manually reviewing applications — especially in high-
 ## 📬 Questions or Contributions?
 
 Feel free to fork this repo, raise issues, or suggest improvements.  
-For inquiries, contact: **henry@arcnetlabs.com**
+For inquiries, contact: **henry@arcnetlab.com**
 
 ---
 
