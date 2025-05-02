@@ -78,7 +78,7 @@ Each incoming email is embedded → matched to job criteria via Pinecone → pas
 ![Workflow Screenshot](workflow.png)
 
 ### 📊 Candidate Scoring Output
-![Scoring Sheet](workflow-output.png)
+![Scoring Sheet](workflow_output.png)
 
 ---
 
