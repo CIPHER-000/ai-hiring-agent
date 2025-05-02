@@ -74,7 +74,11 @@ Each incoming email is embedded → matched to job criteria via Pinecone → pas
 
 ## 📸 Screenshots
 
-*Add screenshots here if desired — e.g., n8n flow, Google Sheets output, etc.*
+### 🧠 Workflow Overview
+![Workflow Screenshot](workflow.png)
+
+### 📊 Candidate Scoring Output
+![Scoring Sheet](workflow-output.png)
 
 ---
 
