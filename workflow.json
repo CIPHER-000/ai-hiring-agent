@@ -1,0 +1,263 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": false,
+        "filters": {
+          "labelIds": [
+            "UNREAD"
+          ],
+          "q": "subject:Application",
+          "readStatus": "unread"
+        },
+        "options": {
+          "downloadAttachments": true
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bb89e295-1aec-4da5-9eb8-ccf97b5b4765",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "CN4EnQVGdswvxuyQ",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Evaluate this resume for a Software Engineer role based on these criteria: First, the candidate must have at least 3 years of work experience in Software Engineering or a related role. Second, their skills should include, Python, SQL, and other software-related skills. Third, they should have worked on software engineering-related projects during those 3 years, using the relevant skills. Finally, they need to have a Bachelor's, Master's, Certification or PhD in a relevant field like Computer Science or Software Engineering. Assign a score out of 2.5 for each criterion and provide a total score out of 10. Provide me output in the following format.\n\nCandidate's Name: Provide name of the candidate\nCandidate's Email Id: Provide email id of the candidate\nRelevant work experience: Provide score out of 2.5\nSkills: Provide score out of 2.5\nRelevant Projects: Provide score out of 2.5\nEducation: Provide score out of 2.5\nTotal Score: Sum score of above 4 criteria and provide score out of 10 \n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        400,
+        0
+      ],
+      "id": "42c2598a-2e97-4190-b92a-f0cec0c04a4f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        420,
+        220
+      ],
+      "id": "388beedb-4ff2-4771-b9ad-949b2150b46e",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Pwc6sYo5N8xtMsCl",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"Candidate Name\": \"Henry Giwa\",\n  \"Candidate Email Id\": \"henrywilder000@gmail.com\",\n \"Relevant Work Experience\": \"3\",\n\t\"Skills\": \"3\",\n  \t\"Related Projects\": \"2\",\n  \t\"Education\": \"1\",\n  \t\"Total Score\": \"6\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        220
+      ],
+      "id": "1bac9ed0-f361-4b1d-a7b2-a758bbec2baf",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1xwyuNQPVEv1laPRuKFniWk9osgYPdn9LIrCvpxQn3ZM",
+          "mode": "list",
+          "cachedResultName": "Untitled spreadsheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xwyuNQPVEv1laPRuKFniWk9osgYPdn9LIrCvpxQn3ZM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1eC_-xNrUB9pM5T_59iott68eIthJFdlz2qragNKns1c/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Candidate Name": "={{ $json.output['Candidate Name'] }}",
+            "Candidate Email Id": "={{ $json.output['Candidate Email Id'] }}",
+            "Relevant Work Experience": "={{ $json.output['Relevant Work Experience'] }}",
+            "Skills": "={{ $json.output.Skills }}",
+            "Relevant Projects": "={{ $json.output['Related Projects'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Candidate Name",
+              "displayName": "Candidate Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Candidate Email Id",
+              "displayName": "Candidate Email Id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Relevant Work Experience",
+              "displayName": "Relevant Work Experience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Skills",
+              "displayName": "Skills",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Relevant Projects",
+              "displayName": "Relevant Projects",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Relevant Projects",
+              "displayName": "Relevant Projects",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        760,
+        0
+      ],
+      "id": "8fec2b20-6e72-4d47-b3b6-bbdf6612acbf",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "S6DqeUQ1mU12dtfg",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c4b504d9-1402-4e20-b723-9ecff3ec0ed7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "dafed717904c45e52796dabe83efcac1a355d5c4935d6696a3a14c58cf493d2b"
+  },
+  "id": "fLlHMosRXeOWG0XG",
+  "tags": []
+}
